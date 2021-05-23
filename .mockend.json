@@ -1,8 +1,0 @@
-{
-  "Post": {
-    "userId": "int",
-    "id": "int",
-    "title": "string",
-    "body": "string"
-  }
-}
