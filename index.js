@@ -6,12 +6,11 @@
 import axios from 'axios';
 import _ from 'lodash';
 
-// const BASE_URL = 'https://jsonplaceholder.typicode.com';
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://jsonplaceholder.typicode.com/todos'
 
 const getYoungMoney = async function() {
   try {
-    const response = await axios.get(`${BASE_URL}/todos`);
+    const response = await axios.get(`${BASE_URL}`);
 
     if (!response.statusText === 'OK') {
       throw new Error();
@@ -19,7 +18,6 @@ const getYoungMoney = async function() {
 
     const data = response.data;
     console.table(data);
-    console.log('lodash test', _.head(data, 1));
   } catch (error) {
     console.error('Error:', error.message);
   }
@@ -27,21 +25,24 @@ const getYoungMoney = async function() {
 
 const postYoungMoney = async function() {
   try {
-    const todoItem = {
-      userId: 1,
-      id: 201,
-      title: 'Yup yup yup yup yup',
-      completed: false
-    };
+    // Example
+    // const newObject = {
+    //   userId: 1,
+    //   id: 201,
+    //   title: 'Yup yup yup yup yup',
+    //   completed: false
+    // };
 
-    const response = await axios.post(`${BASE_URL}/todos`, todoItem);
+    const newObject = {};
+
+    const response = await axios.post(`${BASE_URL}`, newObject);
 
     if (!response.statusText === 'OK') {
       throw new Error();
     }
 
-    const newTodoItem = response.data;
-    console.log(`Added a new Todo!`, newTodoItem);
+    const addedObjected = response.data;
+    console.log(`Posted:`, addedObjected);
   } catch(error) {
     console.error('Error:', error.message);
   }
