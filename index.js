@@ -1,9 +1,13 @@
+// https://candidate.hubteam.com/what-is-the-hubspot-coding-assessment
 // https://github.com/you-dont-need/You-Dont-Need-Lodash-Underscore
+// https://flaviocopes.com/axios-send-authorization-header/
+// https://www.digitalocean.com/community/tutorials/js-axios-vanilla-js
 
 import axios from 'axios';
 import _ from 'lodash';
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
+// const BASE_URL = 'https://jsonplaceholder.typicode.com';
+const BASE_URL = 'http://localhost:3000';
 
 const getYoungMoney = async function() {
   try {
@@ -25,7 +29,7 @@ const postYoungMoney = async function() {
   try {
     const todoItem = {
       userId: 1,
-      id: 1,
+      id: 201,
       title: 'Yup yup yup yup yup',
       completed: false
     };
@@ -38,10 +42,10 @@ const postYoungMoney = async function() {
 
     const newTodoItem = response.data;
     console.log(`Added a new Todo!`, newTodoItem);
-  } catch {
+  } catch(error) {
     console.error('Error:', error.message);
   }
 };
 
 getYoungMoney();
-// postYoungMoney();
+postYoungMoney();
