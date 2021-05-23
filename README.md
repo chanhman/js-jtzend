@@ -15,3 +15,4 @@ npm run serve
 - https://flaviocopes.com/axios-send-authorization-header/
 - https://www.digitalocean.com/community/tutorials/js-axios-vanilla-js
 - https://dev.to/danmt/locally-run-stackblitz-project-with-typescript-and-rxjs-1o9o
+- https://masteringjs.io/tutorials/axios/json
