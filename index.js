@@ -38,7 +38,7 @@
 import axios from 'axios'
 import _ from 'lodash'
 
-const BASE_URL = 'https://candidate.hubteam.com/candidateTest/v3/problem/'
+const BASE_URL = 'https://candidate.hubteam.com/candidateTest/v3/problem'
 
 const getResults = async function () {
   try {
@@ -57,9 +57,9 @@ const getResults = async function () {
   }
 }
 
-const postResults = async function () {
+const postResults = async function (data) {
   try {
-    const newObject = {}
+    const newObject = data
 
     const response = await axios.post(
       `${BASE_URL}/result?userKey=68c3301ad0767cae16d3f03ae86f`,
@@ -80,6 +80,7 @@ const postResults = async function () {
 function dateCheck(data) {
   const partners = data.partners
   const partnersWithStartDate = partners.map(d => ({...d, startDate: []}))
+  const final = { "countries": [] }
 
   partnersWithStartDate.forEach((partner) => {
     const availableDates = partner.availableDates
@@ -94,7 +95,61 @@ function dateCheck(data) {
       }
     })
   })
+
+  const filterPartners = partnersWithStartDate.map(partner => {
+    if (partner.startDate.length > 0) {
+      return {...partner, startDate: partner.startDate[0]}
+    }
+
+    return {...partner, startDate: null}
+  });
+
+  const partnersGroupedByCountry = _.groupBy(filterPartners, function(partner) {
+    return partner.country
+  });
+
+  const groupByStartDate = []
+
+  _.map(partnersGroupedByCountry, function(country) {
+    let group =_.groupBy(country, function(partner) {
+      return partner.startDate
+    })
+
+    groupByStartDate.push(group)
+  })
+
+  const mostDates = []
+  _.map(groupByStartDate, function(date) {
+    mostDates.push(_.sortBy(date, obj => -obj.length))
+  })
+
+  const removeDates = _.map(mostDates, function(date) {
+    return date[0]
+  })
+
+  _.map(removeDates, function(date) {
+    let attendeeCount = date.length
+    let attendeees = []
+    let name
+    let startDate
+
+    _.map(date, function(d, i) {
+      if (i === 0) {
+        name = d.country
+        startDate = d.startDate
+      }
+
+      attendeees.push(d.email)
+    })
+
+    final.countries.push({
+      attendeeCount,
+      attendeees,
+      name,
+      startDate})
+  })
+
+  postResults(final)
 }
 
 getResults()
-// postResults();
